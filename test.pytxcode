@@ -1,0 +1,37 @@
+=>PYTHONTEX#py#default#default#0#code#####53#
+print("Python says ``Hello''")
+=>PYTHONTEX#py#default#default#1#i#####57#
+8*256
+=>PYTHONTEX#py#default#default#2#code#####59#
+from pylatex import Matrix, Math
+import numpy as np
+M = (np.random.rand(3, 3) * 10).round(2)
+matrix = Matrix(M, mtype="b")
+
+math = Math(data=["M=", matrix])
+print(math.dumps())
+=>PYTHONTEX:SETTINGS#
+version=0.18dev
+outputdir=pythontex-files-test
+workingdir=.
+workingdirset=false
+gobble=none
+rerun=default
+hashdependencies=default
+makestderr=false
+stderrfilename=full
+keeptemps=none
+pyfuture=default
+pyconfuture=none
+pygments=true
+pygglobal=:GLOBAL||
+fvextfile=-1
+pyconbanner=none
+pyconfilename=stdin
+depythontex=false
+pygfamily=py|python3|
+pygfamily=pycon|pycon|
+pygfamily=sympy|python3|
+pygfamily=sympycon|pycon|
+pygfamily=pylab|python3|
+pygfamily=pylabcon|pycon|

@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage{pythontex}
+\usepackage{amsmath}
+\newcommand{\pymultiply}[2]{\py{#1*#2}}
+
+% https://jeltef.github.io/PyLaTeX/current/usage.html
+% https://github.com/gpoore/pythontex
+
+\begin{document}
+So this is how I got everything up and running.
+First of all, I am using \emph{latexmk} from VS Code.
+Because of restrictions from PythonTex I am forced to
+either write the generated python files into the current
+directory so that \emph{latexmk} finds them if the output directory
+is changed, or to keep the output directory for \emph{latexmk}
+to the current directory, in which case the python files can be
+moved to a different directory. I find the latter case nicer,
+so I set the VS Code option to not generate the \emph{latexmk} 
+files in a different folder. This may has to be changed
+in the VS Code \texttt{settings.json}.
+
+Then to utilize the build system from within VS Code and use
+\emph{latexmk} correctly, I had to create the following
+\texttt{.latexmkrc} file. I only include this file in the
+current project directory, as I don't want this to be run, if
+I am not using PythonTex.
+
+{\small
+\begin{verbatim}
+add_cus_dep('pytxcode', 'tex', 0, 'pythontex');
+# PYTHON_PATH = /home/kai/miniconda3/envs/pythontex/bin/python
+# TEX3_PATH = /usr/share/texlive/texmf-dist/scripts/pythontex/pythontex3.py
+# To find PYTHON_TEX3_PATH: cat $(which pythontex3)
+sub pythontex { return system("PYTHON_PATH PYTHON_TEX3_PATH 
+    --interpreter python:PYTHON_PATH \"$_[0]\""); }
+\end{verbatim}
+}
+
+As one can see, I am hardcoding a lot. But the main reason for this
+is that I wanted to use an isolated python environment and
+I couldn't get it to work otherwise. But with this, the
+python environment is standalone and doesn't interfere with the
+main one.
+
+I do like the functionality to create Python snippets in latex, and
+to do some integral math within a \LaTeX\ document, but I wanted
+to also print some matrices, with the ability to mutate them
+in a similar manner. For this I am also using the
+\emph{pylatex} python package, which can create \LaTeX\ snippets
+for matrices, tables, and so on.
+
+
+\begin{pycode}
+print("Python says ``Hello''")
+\end{pycode}
+
+$8 \times 256 = \pymultiply{8}{256}$
+
+\begin{pycode}
+from pylatex import Matrix, Math
+import numpy as np
+M = (np.random.rand(3, 3) * 10).round(2)
+matrix = Matrix(M, mtype="b")
+
+math = Math(data=["M=", matrix])
+print(math.dumps())
+\end{pycode}
+
+\end{document}
