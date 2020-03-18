@@ -1,2 +1,2 @@
 add_cus_dep('pytxcode', 'tex', 0, 'pythontex');
-sub pythontex { return system("/home/kai/miniconda3/envs/pythontex/bin/python /usr/share/texlive/texmf-dist/scripts/pythontex/pythontex3.py --interpreter python:/home/kai/miniconda3/envs/pythontex/bin/python \"$_[0]\""); }
+sub pythontex { return system("cmd", "/c", "conda activate pythontex && python \"C:/Users/Kai/AppData/Local/Programs/MiKTeX 2.9/scripts/pythontex/pythontex3.py\" --interpreter python:python \"$_[0]\"") }
